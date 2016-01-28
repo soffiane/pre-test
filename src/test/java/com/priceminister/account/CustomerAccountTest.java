@@ -29,12 +29,13 @@ public class CustomerAccountTest {
     @Before
     public void setUp() throws Exception {
         customerAccount = new CustomerAccount();
+        rule = new CustomerAccountRule(); 
     }
     
      @Test
      public void testAccountWithoutMoneyHasZeroBalance() {
         Double balance = customerAccount.getBalance();
-        Assert.assertEquals("0.0",balance);
+        Assert.assertEquals(Double.valueOf(0.0),balance);
         Assert.assertNotNull(balance);
      }
      
@@ -45,21 +46,14 @@ public class CustomerAccountTest {
         Double formerAccount = customerAccount.getBalance();
         Double addAmount = 50.0;
         customerAccount.add(addAmount);
-        Double somme = formerAccount+addAmount;
-        Assert.assertEquals(somme,customerAccount.getBalance());
+        Assert.assertEquals(Double.valueOf(formerAccount+addAmount),customerAccount.getBalance());
      }
      
 
-     @Test
-     public void testWithdrawAndReportBalanceIllegalBalance() {
+     @Test(expected=IllegalBalanceException.class)
+     public void testWithdrawAndReportBalanceIllegalBalance() throws IllegalBalanceException {
         customerAccount.add(50.0);
-        try {
-			customerAccount.withdrawAndReportBalance(70.0,rule);
-			fail("IllegalBalanceException");
-		} catch (IllegalBalanceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}       
+		Double newBalance = customerAccount.withdrawAndReportBalance(70.0,rule);   
      }
      
      // Also implement missing unit tests for the above functionalities.
