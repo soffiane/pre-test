@@ -18,12 +18,18 @@ import com.priceminister.account.*;
 
 
 public class CustomerAccountRule implements AccountRule {
+	
+	Double limitedBalance;
+	
+	public CustomerAccountRule(){
+		limitedBalance = 0.0;
+	}
 
     /* (non-Javadoc)
      * @see com.priceminister.account.AccountRule#withdrawPermitted(java.lang.Double)
      */
     public boolean withdrawPermitted(Double resultingAccountBalance) {
-        return resultingAccountBalance >= 0;
+        return resultingAccountBalance >= limitedBalance;
     }
 
 }
